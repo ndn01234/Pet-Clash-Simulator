@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Clash Simulator</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <h1>🐾 Pet Clash Simulator</h1>
+
+<div class="top-bar">
+  <form action="/pets" method="POST" class="add-form">
+    <input name="name" placeholder="Pet Name" required>
+    <select name="type">
+      <option>Dog</option>
+      <option>Cat</option>
+      <option>Bird</option>
+      <option>Tiger</option>
+      <option>Snake</option>
+      <option>Chipmunk</option>
+      <option>Elephant</option>
+    </select>
+    <button type="submit">Add Pet</button>
+  </form>
+
+  <button class="toggle" onclick="toggleMode()">Dark / Light</button>
+</div>
+
+  <div class="container">
+    <% pets.forEach(pet => { %>
+      <div class="pet-card">
+
+        <h3><%= pet.name %></h3>
+        <small><%= pet.type %></small>
+
+        <!-- CAPTION -->
+        <p class="caption">
+          <% if (pet.type === 'Dog') { %> 🐶 Woof woof!
+          <% } else if (pet.type === 'Cat') { %> 🐱 meow meow
+          <% } else if (pet.type === 'Bird') { %> 🐦 cit-cit-cit
+          <% } else if (pet.type === 'Tiger') { %> 🐯 Rawr!
+          <% } else if (pet.type === 'Snake') { %> 🐍 Hisss~
+          <% } else if (pet.type === 'Chipmunk') { %> 🐿️ kuk-kuk! muk-muk!
+          <% } else if (pet.type === 'Elephant') { %> 🐘 pawoo~
+          <% } %>
+        </p>
+
+        <!-- PET IMAGE -->
+        <img src="<%= pet.image %>" class="avatar" alt="<%= pet.name %>">
+
+        <!-- ACTION FORM -->
+        <form action="/pets/action/<%= pet.id %>" method="POST" class="actions">
+          <button name="action" value="eat">Eat</button>
+          <button name="action" value="play">Play</button>
+          <button name="action" value="sleep">Sleep</button>
+          <button name="action" value="hunt">Hunt</button>
+          <button name="action" value="toilet">Toilet</button>
+        </form>
+
+        <!-- STATS -->
+        <div class="stat">
+          <span>Hunger</span>
+          <div class="bar">
+            <div class="bar-inner hunger" style="width:<%= pet.hunger %>%"></div>
+          </div>
+        </div>
+
+        <div class="stat">
+          <span>Happiness</span>
+          <div class="bar">
+            <div class="bar-inner happiness" style="width:<%= pet.happiness %>%"></div>
+          </div>
+        </div>
+
+        <div class="stat">
+          <span>Energy</span>
+          <div class="bar">
+            <div class="bar-inner energy" style="width:<%= pet.energy %>%"></div>
+          </div>
+        </div>
+
+        <!-- BATTLE -->
+        <button onclick="startBattle('<%= pet.id %>')">Battle Mode</button>
+
+        <!-- REMOVE -->
+        <form action="/pets/delete/<%= pet.id %>" method="POST">
+          <button class="remove">Remove</button>
+        </form>
+
+      </div>
+    <% }) %>
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html>
